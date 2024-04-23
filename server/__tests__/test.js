@@ -15,8 +15,8 @@ describe("Online Voting Sytem test cases", () => {
         server = app.listen(9000, () => { });
         agent = request.agent(server);
 
-        console.log(process.env.SECRET);
-        authToken = jwt.sign({ id: 1 }, process.env.SECRET, { expiresIn: "1h" });
+        console.log(process.env.MY_SECRET_KEY);
+        authToken = jwt.sign({ id: 1 }, process.env.MY_SECRET_KEY, { expiresIn: "1h" });
     });
 
     afterAll(async () => {

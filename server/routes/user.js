@@ -8,7 +8,7 @@ const authValidate = require("../middleware/authMiddleware");
 var saltRound = bcrypt.genSaltSync(10);
 
 const createToken = (id) => {
-  return jwt.sign({ id }, process.env.SECRET, { expiresIn: "3d" });
+  return jwt.sign({ id }, process.env.MY_SECRET_KEY, { expiresIn: "3d" });
 };
 
 router.post("/signup", async (req, res) => {
