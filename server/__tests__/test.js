@@ -3,6 +3,7 @@ const request = require("supertest");
 const db = require("../models/index");
 const app = require("../app");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 let server;
 let agent;
