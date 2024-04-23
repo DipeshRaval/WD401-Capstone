@@ -2,4 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 cd server && npm run test
-npx lint-staged
+cd server && npx lint-staged
