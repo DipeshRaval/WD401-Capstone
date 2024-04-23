@@ -1,0 +1,18 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "Drvl@123",
+    "database": "drvl",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "Drvl@123",
+    "database": "wd-voting-test",
+    "dialect": "postgres"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgres"
+  }
+}

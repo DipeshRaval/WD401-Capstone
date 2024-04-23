@@ -1,0 +1,38 @@
+{
+    "translation": {
+        "Pending": "Pendiente", 
+        "In progress": "en curso",
+        "Done": "completo",
+        "Projects": "Proyectos",
+        "Members": "Miembros",
+        "newProjectButtonText": "Nuevo proyecto",
+        "newProjectModalHeader": "Agregar nuevo proyecto",
+        "projectNamePlaceHolder": "ingrese el nombre del proyecto",
+        "newMemberButtonText": "Nuevo miembro",
+        "newMemberModalHeader": "Agregar nueva miembro",
+        "name": "Nombre",
+        "submitButtonText": "Enviar",
+        "cancelButtonText": "Cancelar",
+        "updateButtonText": "Actualizar",
+        "addCommentBtnText": "Agregar comentario",
+        "newTaskButtonText": "Nueva tarea",
+        "newTaskModalHeader": "Agregar nueva tarea",
+        "newTaskTitlePlaceHolder": "ingrese el título de la tarea",
+        "newTitleDescriptionPlaceHolder": "ingrese la descripción de la tarea", "taskDetailsModalHeader": "Detalles de la tarea",
+        "assigneeText": "Asignar a",
+        "commentText": "Comentario",
+        "descriptionText": "Descripción",
+        "loading": "Cargando...",
+        "English" : "Inglés",
+        "Gujrati" : "Gujarati",
+        "Spanish": "Español",
+        "addcommentBtnText" : "Agregar Comentario",
+        "newMemberNamePlaceHolder": "Ingrese el nombre del miembro...",
+        "newMemberEmailPlaceHolder": "Ingrese el correo electrónico del miembro...",
+        "newMemberPasswordPlaceHolder": "Ingrese la contraseña...",
+        "homeBtn" : "Inicio",
+        "notaskError" : "¡No hay tal tarea!",
+        "noprojectError" : "¡No hay tal Proyecto!"
+    }
+ 
+}

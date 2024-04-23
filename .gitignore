@@ -1,0 +1,9 @@
+**/.env
+
+# Ignore node_modules directory
+**/node_modules/
+
+# Ignore Markdown Files
+**/.md
+# Local Netlify folder
+.netlify
