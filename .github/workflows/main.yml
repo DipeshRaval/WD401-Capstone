@@ -46,7 +46,7 @@ jobs:
         run: cd server && npm install
 
       - name: Run unit tests
-        run: npm test
+        run: cd server && npm test
 
       - name: Run the app
         id: run-app
