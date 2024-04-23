@@ -7,13 +7,14 @@ const jwt = require("jsonwebtoken");
 let server;
 let agent;
 
-describe("ProHires test cases", () => {
+describe("Online Voting Sytem test cases", () => {
     let authToken;
 
     beforeAll(async () => {
         server = app.listen(9000, () => { });
         agent = request.agent(server);
 
+        console.log(process.env.SECRET);
         authToken = jwt.sign({ id: 1 }, process.env.SECRET, { expiresIn: "1h" });
     });
 
