@@ -97,12 +97,6 @@ jobs:
     needs: [run-tests, push-to-docker-hub, deploy-to-render]
     if: ${{ needs.run-tests.result == 'success' }}
     steps:
-      - name: Backend deploy to Render
-        uses: johnbeynon/render-deploy-action@v0.0.8
-        with:
-          service-id: ${{ secrets.RENDER_SERVICE_ID }}
-          api-key: ${{ secrets.RENDER_TOKEN }}
-
       - name: Deploy to netlify
         uses: netlify/actions/cli@master
         env:
