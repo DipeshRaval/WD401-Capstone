@@ -133,6 +133,7 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         run: |
           cd client
+          npx netlify-cli build
           npx netlify-cli deploy --prod --dir=build --message "${{ steps.commit_message.outputs.message }}"
 
   send-slack-notification:
