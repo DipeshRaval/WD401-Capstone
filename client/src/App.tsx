@@ -5,6 +5,7 @@ import router from "./routes";
 import { ThemeContext } from "./context/theme";
 import { ElectionsProvider } from "./context/elections/context";
 import { OptionsDetailProvider } from "./context/option/context";
+import { ElectionsDetailProvider } from "./context/electionData/context";
 // import "./i18n"
 
 const App = () => {
@@ -16,9 +17,11 @@ const App = () => {
       }`}
     >
       <ElectionsProvider>
-        <OptionsDetailProvider>
-          <RouterProvider router={router} />
-        </OptionsDetailProvider>
+        <ElectionsDetailProvider>
+          <OptionsDetailProvider>
+            <RouterProvider router={router} />
+          </OptionsDetailProvider>
+        </ElectionsDetailProvider>
       </ElectionsProvider>
     </div>
   );

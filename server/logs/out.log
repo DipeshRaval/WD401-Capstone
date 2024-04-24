@@ -1,0 +1,46 @@
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Server started at port - 3000
+Executing (default): SELECT "id", "firstName", "lastName", "email", "password", "role", "createdAt", "updatedAt" FROM "Admins" AS "Admin" WHERE "Admin"."id" = 7;
+Executing (default): SELECT "id", "firstName", "lastName", "email", "password", "role", "createdAt", "updatedAt" FROM "Admins" AS "Admin" WHERE "Admin"."id" = 7;
+Admin {
+  dataValues: {
+    id: [33m7[39m,
+    firstName: [32m'Drvl'[39m,
+    lastName: [32m'rvl'[39m,
+    email: [32m'dddd@gmail.com'[39m,
+    password: [32m'$2a$10$vl01pB5fpdW6tyS6EFI4gOxZAFxbrHWH.WupApIrAdeWCCeoXIyi6'[39m,
+    role: [32m'admin'[39m,
+    createdAt: [35m2024-04-14T17:22:10.281Z[39m,
+    updatedAt: [35m2024-04-14T17:22:10.281Z[39m
+  },
+  _previousDataValues: {
+    id: [33m7[39m,
+    firstName: [32m'Drvl'[39m,
+    lastName: [32m'rvl'[39m,
+    email: [32m'dddd@gmail.com'[39m,
+    password: [32m'$2a$10$vl01pB5fpdW6tyS6EFI4gOxZAFxbrHWH.WupApIrAdeWCCeoXIyi6'[39m,
+    role: [32m'admin'[39m,
+    createdAt: [35m2024-04-14T17:22:10.281Z[39m,
+    updatedAt: [35m2024-04-14T17:22:10.281Z[39m
+  },
+  uniqno: [33m1[39m,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: [33mfalse[39m,
+    _schema: [1mnull[22m,
+    _schemaDelimiter: [32m''[39m,
+    raw: [33mtrue[39m,
+    attributes: [
+      [32m'id'[39m,        [32m'firstName'[39m,
+      [32m'lastName'[39m,  [32m'email'[39m,
+      [32m'password'[39m,  [32m'role'[39m,
+      [32m'createdAt'[39m, [32m'updatedAt'[39m
+    ]
+  },
+  isNewRecord: [33mfalse[39m
+}
+Executing (default): SELECT "id", "title", "url", "launch", "end", "createdAt", "updatedAt", "adminId" FROM "Elections" AS "Election" WHERE "Election"."adminId" = 7 ORDER BY "Election"."id" ASC;
+Executing (default): SELECT "id", "voterId", "password", "voted", "role", "createdAt", "updatedAt", "electionId" FROM "Voters" AS "Voter" WHERE "Voter"."electionId" = '5' ORDER BY "Voter"."id" ASC;

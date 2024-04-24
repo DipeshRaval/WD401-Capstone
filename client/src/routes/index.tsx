@@ -12,6 +12,7 @@ import ElectionDetails from "../pages/ElectionPage";
 import ElectionDetailsContainer from "../pages/ElectionPage/ElectionPageContainer";
 import OptionDetailsContainer from "../pages/options";
 import VotersDetailsContainer from "../pages/voter";
+import NotFound from "../NotFound";
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/account/election" replace /> },
@@ -64,6 +65,14 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "/notfound",
+    element: <NotFound />,
+  },
+  {
+    path: "*",
+    element: <Navigate to="/notfound" />,
   },
 ]);
 

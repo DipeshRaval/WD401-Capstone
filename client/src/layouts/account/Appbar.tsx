@@ -23,7 +23,7 @@ const Appbar = () => {
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
 
-    throw new Error("Error FOr Test Sentry.....");
+    throw new Error("Error Language Chnage Test Sentry.....");
   };
 
   const toggleTheme = () => {
@@ -50,7 +50,7 @@ const Appbar = () => {
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <h3 className="text-2xl font-bold ">Online Voting System</h3>
+                  <h3 className="text-2xl font-bold ">{t("AppName")}</h3>
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">

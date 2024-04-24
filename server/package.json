@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon -e js,ejs",
     "start:prod": "node index.js",
+    "start:docker": "node index.js",
     "test": "jest",
     "pretest": "NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create && NODE_ENV=test npx sequelize-cli db:migrate",
     "prepare": "cd .. && husky server/.husky",

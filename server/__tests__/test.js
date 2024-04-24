@@ -1,3 +1,4 @@
+// require("dotenv").config({ path: ".env" });
 /* eslint-disable no-undef */
 const request = require("supertest");
 const db = require("../models/index");
@@ -7,14 +8,14 @@ const jwt = require("jsonwebtoken");
 let server;
 let agent;
 
-describe("ProHires test cases", () => {
+describe("Online Voting Sytem test cases", () => {
     let authToken;
 
     beforeAll(async () => {
         server = app.listen(9000, () => { });
         agent = request.agent(server);
 
-        authToken = jwt.sign({ id: 1 }, process.env.SECRET, { expiresIn: "1h" });
+        authToken = jwt.sign({ id: 1 }, "Drvl@TestCase", { expiresIn: "1h" });
     });
 
     afterAll(async () => {

@@ -100,7 +100,7 @@ const NewElection = () => {
                       />
                       {errors.electionTitle && (
                         <span className="text-red-500">
-                          This field is required
+                          {t("requiredNote")}
                         </span>
                       )}
                       <input
@@ -115,7 +115,7 @@ const NewElection = () => {
                       />
                       {errors.electionUrl && (
                         <span className="text-red-500">
-                          This field is required
+                          {t("requiredNote")}
                         </span>
                       )}
                       <button
