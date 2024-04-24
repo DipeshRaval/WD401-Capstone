@@ -1,6 +1,6 @@
 import React from "react";
 import { API_ENDPOINT } from "../../config/constants";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
@@ -79,6 +79,18 @@ const SigninForm: React.FC = () => {
       >
         Sign In
       </button>
+
+      <p className="mt-2">
+        <span className="text-gray-900 dark:text-white">
+          Are you new User ?
+        </span>
+        <Link
+          className="font-bold text-blue-800 dark:text-blue-400 underline mx-2"
+          to="/signup"
+        >
+          Register Here
+        </Link>
+      </p>
     </form>
   );
 };
