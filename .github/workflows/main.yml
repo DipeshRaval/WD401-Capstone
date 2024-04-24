@@ -96,7 +96,7 @@ jobs:
 
   deploy-to-netlify:
     runs-on: ubuntu-latest
-    needs: [run-tests, push-to-docker-hub]
+    needs: [run-tests, push-to-docker-hub, deploy-to-render]
     if: ${{ needs.run-tests.result == 'success' }} # Condition to run the job only if run-unit-tests job succeeds
     steps:
       - name: Checkout code
@@ -127,8 +127,8 @@ jobs:
 
   send-slack-notification:
     runs-on: ubuntu-latest
-    # needs: [run-tests, push-to-docker-hub, deploy-to-render]
-    # if: ${{ always() }}
+    needs: [run-tests, push-to-docker-hub, deploy-to-render, deploy-to-netlify]
+    if: ${{ always() }}
     steps:
       - name: Send Slack notification
         uses: rtCamp/action-slack-notify@v2
