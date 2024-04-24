@@ -133,7 +133,7 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         run: |
           cd client
-          npx netlify-cli build
+          npx netlify build
           npx netlify-cli deploy --prod --dir=build --message "${{ steps.commit_message.outputs.message }}"
 
   send-slack-notification:
@@ -148,4 +148,4 @@ jobs:
           mention: "here"
           author_name: "GitHub Actions"
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_HOOK }}
+          SLACK_WEBHOOK: https://hooks.slack.com/services/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
