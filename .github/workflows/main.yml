@@ -4,6 +4,9 @@ on:
     branches:
       - develop
       - main
+  pull_request:
+    branches:
+      - develop
 
 env:
   PG_DATABASE: drvl
@@ -93,7 +96,7 @@ jobs:
 
   deploy-to-netlify:
     runs-on: ubuntu-latest
-    needs: [run-tests, push-to-docker-hub]
+    needs: [run-tests, push-to-docker-hub, deploy-to-render]
     if: ${{ needs.run-tests.result == 'success' }} # Condition to run the job only if run-unit-tests job succeeds
     steps:
       - name: Checkout code
@@ -122,16 +125,16 @@ jobs:
           npx netlify build
           npx netlify-cli deploy --prod --dir=dist --message "${{ steps.commit_message.outputs.message }}"
 
-  # send-slack-notification:
-  #   runs-on: ubuntu-latest
-  #   # needs: [run-tests, push-to-docker-hub, deploy-to-render]
-  #   # if: ${{ always() }}
-  #   steps:
-  #     - name: Send Slack notification
-  #       uses: rtCamp/action-slack-notify@v2
-  #       with:
-  #         status: ${{ job.status }}
-  #         mention: "here"
-  #         author_name: "GitHub Actions"
-  #       env:
-  #         SLACK_WEBHOOK: https://hooks.slack.com/services/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
+  send-slack-notification:
+    runs-on: ubuntu-latest
+    needs: [run-tests, push-to-docker-hub, deploy-to-render, deploy-to-netlify]
+    if: ${{ always() }}
+    steps:
+      - name: Send Slack notification
+        uses: rtCamp/action-slack-notify@v2
+        with:
+          status: ${{ job.status }}
+          mention: "here"
+          author_name: "GitHub Actions"
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_HOOK }}
