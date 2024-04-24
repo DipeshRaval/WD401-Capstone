@@ -67,7 +67,7 @@ const ElectionDetails = () => {
   if (!selectedElection) {
     return (
       <p className="font-semibold text-center text-red-500">
-        There is not such a Election
+        {t("noSelectedElections")}
       </p>
     );
   }
@@ -103,13 +103,12 @@ const ElectionDetails = () => {
           to="/account/election"
           className="rounded text-white bg-black text-sm inline px-2 py-2"
         >
-          {" "}
-          Go to List Of Election
+          {t("ListOFELection")}
         </Link>
       </div>
       <div className="flex justify-between">
         <h2 className="text-2xl mt-3 text-green-700 font-medium tracking-tight  dark:text-zinc-50">
-          Manage :{" "}
+          {t("Manage")} :
           <span className="font-semibold underline">
             {selectedElection?.title}
           </span>
@@ -169,7 +168,7 @@ const ElectionDetails = () => {
                         />
                         {errors.title && (
                           <span className="text-red-500">
-                            This field is required
+                            {t("requiredNote")}
                           </span>
                         )}
                         <input
@@ -184,7 +183,7 @@ const ElectionDetails = () => {
                         />
                         {errors.desc && (
                           <span className="text-red-500">
-                            This field is required
+                            {t("requiredNote")}
                           </span>
                         )}
                         <button
@@ -269,56 +268,59 @@ const ElectionDetails = () => {
         >
           Manage quetions
         </a> */}
-        <h3 className="text-xl font-bold my-3">
-          List Of Quetions For Election
-        </h3>
-        <div className="grid gap-4 grid-cols-3 mt-5">
-          {electionDetail.quetion.map((quetion: any) => (
-            <div
-              key={`${quetion.id}-${quetion.title}`}
-              className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-            >
-              <div className="flex justify-between">
-                <div>
-                  <Link to={`/account/quetion/${electionID}/${quetion.id}`}>
-                    <h5 className="mb-2 text-xl font-medium tracking-tight text-gray-900 dark:text-white">
-                      <span className="font-bold">{t("Title")} : </span>
-                      {quetion.title}
-                    </h5>
-                  </Link>
-                  <p>
-                    <span className="text-md font-bold">Description : </span>
-                    {quetion.description}
-                  </p>
+        <h3 className="text-xl font-bold my-3">{t("HeaderForList")}</h3>
+        {electionDetail.quetion.length ? (
+          <div className="grid gap-4 grid-cols-3 mt-5">
+            {electionDetail.quetion.map((quetion: any) => (
+              <div
+                key={`${quetion.id}-${quetion.title}`}
+                className="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+              >
+                <div className="flex justify-between">
+                  <div>
+                    <Link to={`/account/quetion/${electionID}/${quetion.id}`}>
+                      <h5 className="mb-2 text-xl font-medium tracking-tight text-gray-900 dark:text-white">
+                        <span className="font-bold">{t("Title")} : </span>
+                        {quetion.title}
+                      </h5>
+                    </Link>
+                    <p>
+                      <span className="text-md font-bold">
+                        {t("Description")} :{" "}
+                      </span>
+                      {quetion.description}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      deleteQuetionHandler(quetion.id);
+                    }}
+                  >
+                    <TrashIcon
+                      className="h-8 w-8 text-red-600 hover:bg-red-500 hover:text-white border-red-600 border-2 hover:border-red-700 p-1 rounded-md transition duration-1200"
+                      aria-hidden="true"
+                    />
+                  </button>
                 </div>
-                <button
-                  onClick={() => {
-                    deleteQuetionHandler(quetion.id);
-                  }}
-                >
-                  <TrashIcon
-                    className="h-8 w-8 text-red-600 hover:bg-red-500 hover:text-white border-red-600 border-2 hover:border-red-700 p-1 rounded-md transition duration-1200"
-                    aria-hidden="true"
-                  />
-                </button>
               </div>
-            </div>
-          ))}
-        </div>
-        <div></div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-red-500">{t("noQuetions")}</p>
+        )}
       </div>
 
       <div className="mt-6">
         <p className="my-2 text-xl">
-          Your Election have a{" "}
+          {t("yourEleVoterHeader")}
           <span className="font-bold"> {electionDetail?.totalVoter}</span>{" "}
-          Voters.
+          {t("Voters")}.
         </p>
         <Link
           to={`/account/voters/${selectedElection.id}`}
           className="text-blue-900 hover:text-red-600 underline"
         >
-          Manage Voters
+          {t("ManageVoters")}
         </Link>
       </div>
 
@@ -327,19 +329,19 @@ const ElectionDetails = () => {
           href="/election/<%=election?.id%>/launch"
           className="bg-pink-600 hover:bg-pink-700 text-white font-semibold border-2 border-gray-700 px-2 py-1 rounded"
         >
-          Launch Election
+          {t("lauchEle")}
         </a>
         <a
           href="/election/<%=election?.id%>/end"
           className="bg-red-500 hover:bg-red-600 text-white font-semibold border-2 border-gray-700 px-2 py-1 rounded"
         >
-          End Election
+          {t("endEle")}
         </a>
         <a
           href="/election/<%=election?.id%>/preview/result"
           className="bg-blue-700 hover:bg-blue-800 text-white font-semibold border-2 border-gray-700 px-2 py-1 rounded"
         >
-          Preview Result
+          {t("PreviewEle")}
         </a>
       </div>
       {/* </div> */}

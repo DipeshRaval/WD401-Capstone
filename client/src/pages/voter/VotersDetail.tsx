@@ -5,7 +5,10 @@ import { useEffect, Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { useElectionsState } from "../../context/elections/context";
+import {
+  useElectionDispatch,
+  useElectionsState,
+} from "../../context/elections/context";
 
 import { TrashIcon } from "@heroicons/react/24/outline";
 
@@ -18,6 +21,8 @@ import {
   deleteVoter,
   fetchVoters,
 } from "../../context/voters/actions";
+import { fetchElectionDetail } from "../../context/electionData/action";
+import { fetchElection } from "../../context/elections/actions";
 
 type Inputs = {
   voterId: string;
@@ -39,7 +44,7 @@ const VotersDetail = () => {
   } = useForm<Inputs>();
 
   const electionState = useElectionsState();
-
+  const electionDispatch = useElectionDispatch();
   let { electionID } = useParams();
   const { t } = useTranslation();
 
@@ -50,7 +55,10 @@ const VotersDetail = () => {
   const voterDetailDispatch = useVotersDetailDispatch();
 
   useEffect(() => {
-    if (electionID) fetchVoters(voterDetailDispatch, electionID);
+    if (electionID) {
+      fetchElection(electionDispatch);
+      fetchVoters(voterDetailDispatch, electionID);
+    }
   }, [electionID, voterDetailDispatch]);
 
   const selectedElection = electionState?.elections.filter(
@@ -64,7 +72,7 @@ const VotersDetail = () => {
   if (!selectedElection) {
     return (
       <p className="font-semibold text-center text-red-500">
-        There is not such a Election
+        {t("noSelectedElections")}
       </p>
     );
   }
@@ -157,7 +165,7 @@ const VotersDetail = () => {
                         />
                         {errors.voterId && (
                           <span className="text-red-500">
-                            This field is required
+                            {t("requiredNote")}
                           </span>
                         )}
                         <input
@@ -172,7 +180,7 @@ const VotersDetail = () => {
                         />
                         {errors.password && (
                           <span className="text-red-500">
-                            This field is required
+                            {t("requiredNote")}
                           </span>
                         )}
                         <button

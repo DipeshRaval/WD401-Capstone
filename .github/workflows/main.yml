@@ -91,60 +91,49 @@ jobs:
       - name: Trigger Render deployment webhook #trigger deployment webhook
         run: curl -X GET -d '{}' ${{ secrets.RENDER_DEPLOY_HOOK }}
 
-  deploy-to-netlify:
-    name: Auto deployment
-    runs-on: ubuntu-latest # Define the operating system for the job
-    needs: [run-tests, push-to-docker-hub, deploy-to-render]
-    if: ${{ needs.run-tests.result == 'success' }}
-    steps:
-      - name: Deploy to netlify
-        uses: netlify/actions/cli@master
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        with:
-          args: deploy --dir=dist --prod
-          secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
-
   # deploy-to-netlify:
   #   runs-on: ubuntu-latest # Define the operating system for the job
   #   needs: [run-tests, push-to-docker-hub, deploy-to-render]
   #   if: ${{ needs.run-tests.result == 'success' }}
   #   steps:
-  #     - name: Trigger Netlify deployment webhook #trigger deployment webhook
-  #       run: curl -X Post -d '{}' ${{ secrets.NETLIFY_DEPLOY_HOOK }}
-  #       # run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/66278763eeaab7b549f04517
+  #     - name: Deploy to netlify
+  #       uses: netlify/actions/cli@master
+  #       env:
+  #         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+  #         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+  #       with:
+  #         args: deploy --dir=dist --prod
+  #         secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
 
-  #   deploy-to-netlify:
-  #     runs-on: ubuntu-latest
-  #     needs: [run-tests, push-to-docker-hub]
-  #     if: ${{ needs.run-tests.result == 'success' }} # Condition to run the job only if run-unit-tests job succeeds
-  #     steps:
-  #       - name: Checkout code
-  #         uses: actions/checkout@v3
-  #
-  #       - name: Install frontend dependencies # Step to install frontend dependencies
-  #         run: |
-  #           cd client
-  #           npm ci
-  #
-  #       - name: Build app Frontend # Step to build frontend
-  #         run: |
-  #           cd client
-  #           npm run build
-  #
-  #       - name: Get last commit message
-  #         id: commit_message
-  #         run: echo "::set-output name=message::$(git log --format=%B -n 1 $GITHUB_SHA)"
-  #
-  #       - name: Deploy to Netlify
-  #         env:
-  #           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-  #           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-  #         run: |
-  #           cd Evently
-  #           npx netlify-cli env:set VITE_API_ENDPOINT https://evently-backend-jiec.onrender.com/api/v1
-  #           npx netlify-cli deploy --prod --dir=build --message "${{ steps.commit_message.outputs.message }}"
+  deploy-to-netlify:
+    runs-on: ubuntu-latest
+    needs: [run-tests, push-to-docker-hub]
+    if: ${{ needs.run-tests.result == 'success' }} # Condition to run the job only if run-unit-tests job succeeds
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install frontend dependencies # Step to install frontend dependencies
+        run: |
+          cd client
+          npm ci
+
+      - name: Build app Frontend # Step to build frontend
+        run: |
+          cd client
+          npm run build
+
+      - name: Get last commit message
+        id: commit_message
+        run: echo "::set-output name=message::$(git log --format=%B -n 1 $GITHUB_SHA)"
+
+      - name: Deploy to Netlify
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
+          cd client
+          npx netlify-cli deploy --prod --dir=build --message "${{ steps.commit_message.outputs.message }}"
 
   send-slack-notification:
     runs-on: ubuntu-latest

@@ -26,6 +26,7 @@ import {
   useOptionsDetailDispatch,
   useOptionsDetailsState,
 } from "../../context/option/context";
+import { fetchElectionDetail } from "../../context/electionData/action";
 
 type Inputs = {
   optionName: string;
@@ -54,7 +55,7 @@ const OptionsDetail = () => {
   debugger;
   const electionDetailState: any = useElectionsDetailState();
   const { electionDetail } = electionDetailState;
-  //   const electionDetailDispatch = useElectionDetailDispatch();
+  const electionDetailDispatch = useElectionDetailDispatch();
 
   const optionDetailState: any = useOptionsDetailsState();
   const { optionsDetails, isLoading, isError, errorMessage } =
@@ -62,8 +63,9 @@ const OptionsDetail = () => {
   const optionDetailDispatch = useOptionsDetailDispatch();
 
   useEffect(() => {
+    if (electionID) fetchElectionDetail(electionDetailDispatch, electionID);
     if (quetionID) fetchOptionDetail(optionDetailDispatch, quetionID);
-  }, [quetionID, optionDetailDispatch]);
+  }, [quetionID, optionDetailDispatch, electionID, electionDetailDispatch]);
 
   const selectedQuetion = electionDetail?.quetion.filter(
     (quetion: any) => `${quetion?.id}` === quetionID
@@ -76,7 +78,7 @@ const OptionsDetail = () => {
   if (!selectedQuetion) {
     return (
       <p className="font-semibold text-center text-red-500">
-        There is not such a Quetion
+        {t("noSelectedQue")}
       </p>
     );
   }
@@ -173,7 +175,7 @@ const OptionsDetail = () => {
                         />
                         {errors.optionName && (
                           <span className="text-red-500">
-                            This field is required
+                            {t("requiredNote")}
                           </span>
                         )}
                         <button
