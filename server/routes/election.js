@@ -3,6 +3,7 @@ const router = express.Router();
 const { Election, Voter, Quetion, Option } = require("../models");
 // const getResponse = require("../middleware/chatGPT");
 const authValidate = require("../middleware/authMiddleware");
+const getResponse = require("../middleware/openai");
 
 // get all election for the current user
 router.get("/", authValidate, async (req, res) => {
@@ -277,5 +278,16 @@ router.delete(
     }
 );
 
-
+router.post(
+    "/aiQuetion/:id",
+    authValidate, async (req, res) => {
+        if (req.user.role == "admin") {
+            const a = await getResponse(req.body.text)
+            console.log("RESPONSE :  " + a);
+            return a
+        } else {
+            return res.status(403).json({ error: "Unauthorized" });
+        }
+    }
+);
 module.exports = router;

@@ -12,140 +12,126 @@ env:
 
 jobs:
   # Label of the container job
-  #   run-tests:
-  #     # Containers must run in Linux based operating systems
-  #     runs-on: ubuntu-latest
-  #
-  #     # Service containers to run with `container-job`
-  #     services:
-  #       # Label used to access the service container
-  #       postgres:
-  #         # Docker Hub image
-  #         image: postgres:11.7
-  #         # Provide the password for postgres
-  #         env:
-  #           POSTGRES_USER: postgres
-  #           POSTGRES_PASSWORD: Drvl@123
-  #           POSTGRES_DB: wd-voting-test
-  #         # Set health checks to wait until postgres has started
-  #         options: >-
-  #           --health-cmd pg_isready
-  #           --health-interval 10s
-  #           --health-timeout 5s
-  #           --health-retries 5
-  #         ports:
-  #           - 5432:5432
-  #
-  #     steps:
-  #       # Downloads a copy of the code in your repository before running CI tests
-  #       - name: Check out repository code
-  #         uses: actions/checkout@v3
-  #
-  #       # Performs a clean installation of all dependencies in the `package.json` file
-  #       - name: Install dependencies
-  #         run: cd server && npm install
-  #
-  #       - name: Run unit tests
-  #         run: cd server && npm test
-  #
-  #       - name: Run the app
-  #         id: run-app
-  #         run: |
-  #           cd server
-  #           npm install
-  #           npx sequelize-cli db:drop
-  #           npx sequelize-cli db:create
-  #           npx sequelize-cli db:migrate
-  #           PORT=3000 npm start &
-  #           sleep 5
-  #
-  #       - name: Run integration tests
-  #         id: integration-tests
-  #         run: |
-  #           cd server
-  #           npm install cypress cypress-json-results
-  #           npx cypress run
-  #
-  #   push-to-docker-hub:
-  #     name: Docker image build
-  #     needs: [run-tests]
-  #     runs-on: ubuntu-latest
-  #     steps:
-  #       - name: Checkout Repository
-  #         uses: actions/checkout@v2
-  #
-  #       - name: Log in to Docker Hub
-  #         run: echo "${{ secrets.DOCKER_HUB_LOGIN }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
-  #
-  #       - name: Build and Push Docker Image
-  #         run: |
-  #           cd server
-  #           docker build -t ${{ secrets.DOCKER_USERNAME }}/voting:latest .
-  #           docker push ${{ secrets.DOCKER_USERNAME }}/voting:latest
-  #
-  #   deploy-to-render:
-  #     runs-on: ubuntu-latest # Define the operating system for the job
-  #     needs: [run-tests, push-to-docker-hub]
-  #     if: ${{ needs.run-tests.result == 'success' }}
-  #     steps:
-  #       - name: Trigger Render deployment webhook #trigger deployment webhook
-  #         run: curl -X GET -d '{}' ${{ secrets.RENDER_DEPLOY_HOOK }}
-  #
-  #   # deploy-to-netlify:
-  #   #   runs-on: ubuntu-latest # Define the operating system for the job
-  #   #   needs: [run-tests, push-to-docker-hub, deploy-to-render]
-  #   #   if: ${{ needs.run-tests.result == 'success' }}
-  #   #   steps:
-  #   #     - name: Deploy to netlify
-  #   #       uses: netlify/actions/cli@master
-  #   #       env:
-  #   #         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-  #   #         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-  #   #       with:
-  #   #         args: deploy --dir=dist --prod
-  #   #         secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
-  #
-  #   deploy-to-netlify:
-  #     runs-on: ubuntu-latest
-  #     needs: [run-tests, push-to-docker-hub]
-  #     if: ${{ needs.run-tests.result == 'success' }} # Condition to run the job only if run-unit-tests job succeeds
-  #     steps:
-  #       - name: Checkout code
-  #         uses: actions/checkout@v3
-  #
-  #       - name: Install frontend dependencies # Step to install frontend dependencies
-  #         run: |
-  #           cd client
-  #           npm ci
-  #
-  #       - name: Build app Frontend # Step to build frontend
-  #         run: |
-  #           cd client
-  #           npm run build
-  #
-  #       - name: Get last commit message
-  #         id: commit_message
-  #         run: echo "::set-output name=message::$(git log --format=%B -n 1 $GITHUB_SHA)"
-  #
-  #       - name: Deploy to Netlify
-  #         env:
-  #           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-  #           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-  #         run: |
-  #           cd client
-  #           npx netlify build
-  #           npx netlify-cli deploy --prod --dir=dist --message "${{ steps.commit_message.outputs.message }}"
-
-  send-slack-notification:
+  run-tests:
+    # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
-    # needs: [run-tests, push-to-docker-hub, deploy-to-render]
-    # if: ${{ always() }}
-    steps:
-      - name: Send Slack notification
-        uses: rtCamp/action-slack-notify@v2
-        with:
-          status: ${{ job.status }}
-          mention: "here"
-          author_name: "GitHub Actions"
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres:11.7
+        # Provide the password for postgres
         env:
-          SLACK_WEBHOOK: https://hooks.slack.com/services/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
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: Drvl@123
+          POSTGRES_DB: wd-voting-test
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      # Downloads a copy of the code in your repository before running CI tests
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      # Performs a clean installation of all dependencies in the `package.json` file
+      - name: Install dependencies
+        run: cd server && npm install
+
+      - name: Run unit tests
+        run: cd server && npm test
+
+      - name: Run the app
+        id: run-app
+        run: |
+          cd server
+          npm install
+          npx sequelize-cli db:drop
+          npx sequelize-cli db:create
+          npx sequelize-cli db:migrate
+          PORT=3000 npm start &
+          sleep 5
+
+      - name: Run integration tests
+        id: integration-tests
+        run: |
+          cd server
+          npm install cypress cypress-json-results
+          npx cypress run
+
+  push-to-docker-hub:
+    name: Docker image build
+    needs: [run-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_LOGIN }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Build and Push Docker Image
+        run: |
+          cd server
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/voting:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/voting:latest
+
+  deploy-to-render:
+    runs-on: ubuntu-latest # Define the operating system for the job
+    needs: [run-tests, push-to-docker-hub]
+    if: ${{ needs.run-tests.result == 'success' }}
+    steps:
+      - name: Trigger Render deployment webhook #trigger deployment webhook
+        run: curl -X GET -d '{}' ${{ secrets.RENDER_DEPLOY_HOOK }}
+
+  deploy-to-netlify:
+    runs-on: ubuntu-latest
+    needs: [run-tests, push-to-docker-hub]
+    if: ${{ needs.run-tests.result == 'success' }} # Condition to run the job only if run-unit-tests job succeeds
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install frontend dependencies # Step to install frontend dependencies
+        run: |
+          cd client
+          npm ci
+
+      - name: Build app Frontend # Step to build frontend
+        run: |
+          cd client
+          npm run build
+
+      - name: Get last commit message
+        id: commit_message
+        run: echo "::set-output name=message::$(git log --format=%B -n 1 $GITHUB_SHA)"
+
+      - name: Deploy to Netlify
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
+          cd client
+          npx netlify build
+          npx netlify-cli deploy --prod --dir=dist --message "${{ steps.commit_message.outputs.message }}"
+
+  # send-slack-notification:
+  #   runs-on: ubuntu-latest
+  #   # needs: [run-tests, push-to-docker-hub, deploy-to-render]
+  #   # if: ${{ always() }}
+  #   steps:
+  #     - name: Send Slack notification
+  #       uses: rtCamp/action-slack-notify@v2
+  #       with:
+  #         status: ${{ job.status }}
+  #         mention: "here"
+  #         author_name: "GitHub Actions"
+  #       env:
+  #         SLACK_WEBHOOK: https://hooks.slack.com/services/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
